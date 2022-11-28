@@ -12,11 +12,14 @@ from simplebot.database import db
 from simplebot.handler import ViberHandler
 from simplebot.question_worker import QuestionWorker
 from simplebot.message_tree import ElementTree
+from simplebot.blueprints import stats_page
 
 
-question_worker = QuestionWorker(intents_file="intents.json", model_file="data.pth")
+question_worker = QuestionWorker(
+    intents_file="intents.json", model_file="data.pth")
 element_tree = ElementTree()
-rhandler = ViberHandler(question_worker=question_worker, element_tree=element_tree)
+rhandler = ViberHandler(question_worker=question_worker,
+                        element_tree=element_tree)
 
 element_tree.add_element("branch", "_start")
 element_tree.add_element("keyboard", bm.EMPTY_MENU)
@@ -36,7 +39,8 @@ element_tree.add_element("trigger", "_restart")
 element_tree.add_element("keyboard", bm.NEW_USER_MENU)
 element_tree.add_element("text", "Выбери нужный вариант в меню ниже:")
 element_tree.add_element("branch", "_new_user")
-element_tree.add_element("text", "Ты подписал *договор и заполнил карту сотрудника*?")
+element_tree.add_element(
+    "text", "Ты подписал *договор и заполнил карту сотрудника*?")
 element_tree.add_element(
     "button",
     {"Сделано! Что дальше?": "_contract_done", "Еще нет.": "_contract_not_done"},
@@ -67,7 +71,8 @@ element_tree.add_element(
 )
 element_tree.add_element("timer", 2)
 element_tree.add_element("text", "Далее следуй инструкции Gmail...")
-element_tree.add_element("button", {"И вот еще подсказки": "_google_mail_not_done_2"})
+element_tree.add_element(
+    "button", {"И вот еще подсказки": "_google_mail_not_done_2"})
 element_tree.add_element("branch", "_google_mail_not_done_2")
 element_tree.add_element(
     "text", 'Запрос на закрепление номера телефона к аккаунту - нажми "Пропустить"'
@@ -85,7 +90,8 @@ element_tree.add_element(
 element_tree.add_element("timer", 2)
 element_tree.add_element("text", "Вуаля! Почта готова!")
 element_tree.add_element(
-    "button", {"Круто! Что дальше?": "_google_mail_done", "Обратная связь": "_feedback"}
+    "button", {"Круто! Что дальше?": "_google_mail_done",
+               "Обратная связь": "_feedback"}
 )
 element_tree.add_element("branch", "_google_mail_done")
 element_tree.add_element("text", "Ты уже настроил Хром-пользователя?")
@@ -121,7 +127,8 @@ element_tree.add_element(
     "Вуаля! Новый пользователь ГуглХром готов.\n_Автоматически откроется новая вкладка Хрома под новым пользователем_.\n_На рабочем столе появился ярлык для входа именно в этого пользователя_.",
 )
 element_tree.add_element(
-    "button", {"Круто! Что дальше?": "_chrome_user_done", "Обратная связь": "_feedback"}
+    "button", {"Круто! Что дальше?": "_chrome_user_done",
+               "Обратная связь": "_feedback"}
 )
 element_tree.add_element("branch", "_chrome_user_done")
 element_tree.add_element("text", "Молодец!\nА *Линкедин-аккаунт* уже сделал?")
@@ -136,7 +143,8 @@ element_tree.add_element("branch", "_linkedin_account_not_done")
 element_tree.add_element(
     "text", "Окей, я помогу тебе создать аккаунт на Линкедин\n_Нажми на кнопку_"
 )
-element_tree.add_element("button", {"Шаг первый": "_linkedin_account_not_done_1"})
+element_tree.add_element(
+    "button", {"Шаг первый": "_linkedin_account_not_done_1"})
 element_tree.add_element("branch", "_linkedin_account_not_done_1")
 element_tree.add_element(
     "text",
@@ -145,49 +153,57 @@ element_tree.add_element(
 element_tree.add_element("url", {"LinkedIn": "https://www.linkedin.com/"})
 element_tree.add_element("timer", 3)
 element_tree.add_element("text", "Готов?\nПереходи ко второму шагу")
-element_tree.add_element("button", {"Шаг второй": "_linkedin_account_not_done_2"})
+element_tree.add_element(
+    "button", {"Шаг второй": "_linkedin_account_not_done_2"})
 element_tree.add_element("branch", "_linkedin_account_not_done_2")
 element_tree.add_element(
     "text",
     '*Укажи свои настоящие имя и фамилию на английском языке*.\nЗапрещено: указывать никнеймы или сокрашения имени.\n*Загрузи свое фото* \nПараметры фото: портрет, без лишнего фона, желательно более официальное.\n*Переведи профиль на английский язык*\nКак это сделать:\n- в правом верхнем углу ты видишь свое фото\n- нажми на стрелочку под фото\n- откроется меню\n- выбери "Язык/Language"\nЕсли готов, переходи к третьему шагу',
 )
-element_tree.add_element("button", {"Шаг третий": "_linkedin_account_not_done_3"})
+element_tree.add_element(
+    "button", {"Шаг третий": "_linkedin_account_not_done_3"})
 element_tree.add_element("branch", "_linkedin_account_not_done_3")
 element_tree.add_element(
     "text",
     'Поле *Образование/Education*\nУкажи актуальные данные о своем высшем образовании на английском языке.\nЕсли ты еще студент, в поле "Дата окончания" укажи 2020 год или более ранний, а в поле "Дата начала" - год на 4-5 лет раньше.\nГотов? Жми кнопку',
 )
-element_tree.add_element("button", {"Шаг четвертый": "_linkedin_account_not_done_4"})
+element_tree.add_element(
+    "button", {"Шаг четвертый": "_linkedin_account_not_done_4"})
 element_tree.add_element("branch", "_linkedin_account_not_done_4")
 element_tree.add_element(
     "text",
     "Поле *Опыт работы/Edit experience*\n*Заполни в точности по инструкции*\n- должность: Account manager\n- график работы: Full-time\n- компания: Remote Helpers\n- локация: твое текущее местоположение (Город, Украина)\n- время работы в компании: любой месяц/год до настоящего времени + поставь галочку to present.\nГотово? Жми кнопку",
 )
-element_tree.add_element("button", {"Шаг пятый": "_linkedin_account_not_done_5"})
+element_tree.add_element(
+    "button", {"Шаг пятый": "_linkedin_account_not_done_5"})
 element_tree.add_element("branch", "_linkedin_account_not_done_5")
 element_tree.add_element(
     "text",
     "Поле *Навыки/Skills*\n*Указывай скиллы на английском языке*.\nСписок твоих возможных скиллов:\n- Email marketing\n- Lead Generation\n- Social media marketing\n- Online Advertising\n- Data Analysis\n- Searching skills\n- Targeting\n- WordPress\n- English language\n- Design\n- и другие навыки из выпадающего списка.\n*Используй штук 5-8*\nГотово? Жми кнопку",
 )
-element_tree.add_element("button", {"Шаг шестой": "_linkedin_account_not_done_6"})
+element_tree.add_element(
+    "button", {"Шаг шестой": "_linkedin_account_not_done_6"})
 element_tree.add_element("branch", "_linkedin_account_not_done_6")
 element_tree.add_element(
     "text",
     "Замени *статус профиля*.\nКак это сделать:\n- открой свой профиль\n- нажми на карандашик справа от фото профиля\n- замени поле *Headline/Статус*\nВарианты замены:\n_Hire online full-time remote employees| Marketing| Content Managers| SMM| Designers| Devs_\n_Dedicated virtual assistants in Ukraine: Lead Generation| SMM| Media| Design| Developers_\n_Build your online team in few clicks| Lead Generation| Marketing| Media| Design| Devs_\nТебе не обязательно копировать слово в слово. Основной посыл: мы предлагаем клиентам расширить их команду, наняв удаленных сотрудников из Украины, специальности видите выше.\nГотово? Жми кнопку",
 )
-element_tree.add_element("button", {"Шаг седьмой": "_linkedin_account_not_done_7"})
+element_tree.add_element(
+    "button", {"Шаг седьмой": "_linkedin_account_not_done_7"})
 element_tree.add_element("branch", "_linkedin_account_not_done_7")
 element_tree.add_element(
     "text",
     "*Красивая ссылка на твой профиль*\nКак это сделать:\n- зайди на свою страницу\n- _в правом верхнем углу наведи мышку на свое фото, откроется выпадающий список_\n- выбери на нем _View profile_\n- на открывшейся странице в правом верхнем углу нажимаем _Edit public profile & URL_\n- снова в правом верхнем углу нажми на _Edit your custom URL_, внизу будет твоя ссылка и значок карандаша\n- нажми на карандашик и удали все ненужные цифры и символы. Оставь только свое имя и фамилию.\n- нажми _Save_.\nURL обновится в течении нескольких минут.\nГотово? Жми кнопку",
 )
-element_tree.add_element("button", {"Шаг восьмой": "_linkedin_account_not_done_8"})
+element_tree.add_element(
+    "button", {"Шаг восьмой": "_linkedin_account_not_done_8"})
 element_tree.add_element("branch", "_linkedin_account_not_done_8")
 element_tree.add_element(
     "text",
     "Расширь сеть своих контактов. Добавь в друзья своих коллег.\n*Вариант 1 - зайди на страницу компании Remote Helpers в Линкедин, в раздел сотрудники*\n*Вариант 2 - используй поиск в Гугл*\nsite:linkedin.com remote helpers",
 )
-element_tree.add_element("url", {"Вариант 1": "https://www.linkedin.com/mynetwork/"})
+element_tree.add_element(
+    "url", {"Вариант 1": "https://www.linkedin.com/mynetwork/"})
 element_tree.add_element(
     "url",
     {
@@ -197,17 +213,22 @@ element_tree.add_element(
 element_tree.add_element("timer", 10)
 element_tree.add_element("text", "Вуаля! Профиль в Линкедин готов!")
 element_tree.add_element(
-    "button", {"Далее": "_linkedin_account_done", "Обратная связь": "_feedback"}
+    "button", {"Далее": "_linkedin_account_done",
+               "Обратная связь": "_feedback"}
 )
 # TODO: check access transferred tag
 element_tree.add_element("branch", "_linkedin_account_done")
-element_tree.add_element("text", "*Отправь логин к Гугл-почте*\n*Пиши прямо в чат*")
+element_tree.add_element(
+    "text", "*Отправь логин к Гугл-почте*\n*Пиши прямо в чат*")
 element_tree.add_element("input", "google_login")
-element_tree.add_element("text", "*Отправь пароль к Гугл-почте*\n*Пиши прямо в чат*")
+element_tree.add_element(
+    "text", "*Отправь пароль к Гугл-почте*\n*Пиши прямо в чат*")
 element_tree.add_element("input", "google_password")
-element_tree.add_element("text", "*Отправь логин к Линкедин*\n*Пиши прямо в чат*")
+element_tree.add_element(
+    "text", "*Отправь логин к Линкедин*\n*Пиши прямо в чат*")
 element_tree.add_element("input", "linkedin_login")
-element_tree.add_element("text", "*Отправь пароль к Линкедин*\n*Пиши прямо в чат*")
+element_tree.add_element(
+    "text", "*Отправь пароль к Линкедин*\n*Пиши прямо в чат*")
 element_tree.add_element("input", "linkedin_password")
 element_tree.add_element("text", "Спасибо!\nДля продолжения нажми _Далее_")
 element_tree.add_element(
@@ -446,7 +467,8 @@ element_tree.add_element(
     "text",
     "*Зайди* на свою страницу в Линкедин, затем *во вкладку My Network*, расположенную на верхней панели сайта.\nВнизу страницы ты найдешь все профили (connections), которые могут быть тебе полезны.",
 )
-element_tree.add_element("url", {"My network": "https://www.linkedin.com/mynetwork/"})
+element_tree.add_element(
+    "url", {"My network": "https://www.linkedin.com/mynetwork/"})
 element_tree.add_element(
     "button",
     {
@@ -634,7 +656,8 @@ element_tree.add_element(
         "EST to Ukraine time": "https://www.google.com/search?q=EST+to+Ukraine+time&oq=EST+to+Ukraine+time&aqs=chrome..69i57j0i22i30l2.1408j0j7&sourceid=chrome&ie=UTF-8"
     },
 )
-element_tree.add_element("button", {"Далее": "_questions_add_event_to_calendar_2"})
+element_tree.add_element(
+    "button", {"Далее": "_questions_add_event_to_calendar_2"})
 element_tree.add_element(
     "button",
     {
@@ -651,7 +674,8 @@ element_tree.add_element(
     "text",
     'Выбери *кнопку "More options"* и перейди в расширенное меню настроек ивента.\nВажно - длительность ивента должна быть 30 мин. Обычно дольше разговор не длится.\nЗаполни пустые поля.\nЗаголовок *Сompany name - Remote Helpers*\nОписание:\nWe are going to discuss options for partnership in managing human resources for "Name of the partner-company" in Ukraine.\nWebsite: rh-s.com\nWebsite: "his website"',
 )
-element_tree.add_element("button", {"Далее": "_questions_add_event_to_calendar_3"})
+element_tree.add_element(
+    "button", {"Далее": "_questions_add_event_to_calendar_3"})
 element_tree.add_element(
     "button",
     {
@@ -668,7 +692,8 @@ element_tree.add_element(
     "text",
     "Поле *Notifications/Напоминания*.\nРекомендуем ставить 2 напоминания: за 20 мин и за 10 мин.\nЕсли у тебя только одно поле с уведомлением, то нажми add notification, чтобы добавить второе.\n*Поле Comments/Комментарий* о заказчике: обязательно пишем имя клиента и ссылку на его линкедин аккаунт, кто ему нужен и зачем (исходя из переписки на линкеде или почте, все что может пригодиться на звонке: инфа о его компании, свободной вакансии; или же он просто сказал, что хочет узнать по какой модели строится наша работа).\nВсе комментарии писать на английском, чтобы клиент тоже понимал о чем речь.",
 )
-element_tree.add_element("button", {"Далее": "_questions_add_event_to_calendar_4"})
+element_tree.add_element(
+    "button", {"Далее": "_questions_add_event_to_calendar_4"})
 element_tree.add_element(
     "button",
     {
@@ -1343,7 +1368,8 @@ element_tree.add_element(
     "text",
     "Открой *Гугл-календарь*. Создай *новое напоминание*.\nЗаголовок календарного события – *“название компании” FollowUp*\n\n*Выбери дату на которую надо сделать напоминание и продолжительность: ставь галочку НА ВЕСЬ ДЕНЬ*. Так твои ивенты будут отображаться вверху календаря.\n\nВажно: в календаре *выделяем фоллоу-апы ОРАНЖЕВЫМ цветом*.\n\n*Заполни карточку напоминания*\n- в описании укажи все описание о клиенте, его вопросах/ответах, его контакты.\n- обязательно укажи Manager - себя, чтобы мы знали, кто привел лида.\n- в Guests - обязательно добавь почту sales@rh-s.com чтобы твое напоминание отобразилось и у ребят, которые непосредственно созваниваются с клиентами.",
 )
-element_tree.add_element("url", {"Google Календарь": "https://calendar.google.com/"})
+element_tree.add_element(
+    "url", {"Google Календарь": "https://calendar.google.com/"})
 element_tree.add_element(
     "button",
     {
@@ -1370,7 +1396,8 @@ element_tree.add_element(
     "text",
     '*Каждый менеджер лидогенерации работает с определенной страной*. Т.е. за тобой уже закреплена определенная страна, в которой тебе нужно искать лидов.\n\nДля того, чтобы ты начал поиск лидов, нужно узнать, с какой страной ты работаешь на определенном аккаунте. Для этого:\n\n- зайди в свою СРМ\n\n- нажми кнопку *Add new lead*\n- *выбери Линкедин-аккаунт, который закреплен за тобой* (аккаунт, который тебе выдал аккаунт-менеджер специально для работы)\n- *в СРМ в поле "Country" появится название страны, с которой тебе нужно работать*\nЭто поле нельзя отредактировать. Его настраивает аккаунт-менеджер.',
 )
-element_tree.add_element("url", {"CRM Remote Helpers": "https://crm.rh-s.com/"})
+element_tree.add_element(
+    "url", {"CRM Remote Helpers": "https://crm.rh-s.com/"})
 element_tree.add_element(
     "button",
     {
@@ -1439,7 +1466,8 @@ element_tree.add_element(
     },
 )
 element_tree.add_element("branch", "_questions_status_on_event")
-element_tree.add_element("text", "Статус лида в СРМ при назначении ивента - *Event*")
+element_tree.add_element(
+    "text", "Статус лида в СРМ при назначении ивента - *Event*")
 element_tree.add_element(
     "button",
     {
@@ -1498,6 +1526,7 @@ element_tree.add_element("branch", "_end")
 
 
 app = Flask(__name__)
+
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///bot.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
@@ -1506,7 +1535,12 @@ db.init_app(app)
 
 migrate = Migrate(app, db)
 
-# All request processing is done here
+
+app.register_blueprint(stats_page, url_prefix="/statistics")
+
+# All bot request processing is done here
+
+
 @app.route("/", methods=["POST"])
 def incoming():
 
