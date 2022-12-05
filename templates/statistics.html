@@ -2,110 +2,68 @@
 
 {% block content %}
     <p>{{ users }}</p>
+    <div>
+        <canvas id="users-bar-chart" width="800"></canvas>
+    </div>
+    <div>
+        <canvas id="users-line-chart"></canvas>
+    </div>
 
-{% block javascript %}
-<script>
-    let users_data = JSON.parse({{ users | tojson }})
+    {% block javascript %}
+    <script>
+        let users_joined_data = JSON.parse({{ users_joined | tojson }})
+        let users_active_data = JSON.parse({{ users_active | tojson }})
 
-    Chart.scaleService.updateScaleDefaults('linear', {
-            ticks: {
-                min: 0
-            }
-    });
-
-
-    let users_chart = new Chart(users, {
-            type: 'pie',
-            data: {
-            labels: ['users', 'count'],
-                datasets: [{
-                    label: "Users",
-                    data: users_data,
-                    backgroundColor: ['#5DA5DA ', '#FAA43A', '#60BD68',
-                        '#B276B2', '#E16851', '#FB8267'],
-
-                    borderWidth: 1,
-                    hoverBorderColor: "black",
-                    hoverBorderWidth: 2,
-                    hoverBackgroundColor: 'rgba(154, 245, 140)',
-                    pointHoverRadius: 5
-                }],
-            },
+        let users_bar_chart = new Chart(document.getElementById("users-bar-chart"), {
+                type: 'bar',
+                data: {
+                    labels: users_joined_data.map(row => row.date),
+                    datasets: [{
+                        label: "Users",
+                        data: users_joined_data.map(row => row.count),
+                        backgroundColor: ['#5DA5DA ', '#FAA43A', '#60BD68',
+                    '#B276B2', '#E16851', '#FB8267'],
+                        borderWidth: 1,
+                        hoverBorderColor: "black",
+                        hoverBorderWidth: 2,
+                        hoverBackgroundColor: 'rgba(154, 245, 140)',
+                        pointHoverRadius: 5
+                    }],
+                },
             options: {
                     title: {
                         display: true,
                             text: "Users",
                                 fontSize: 20,
-                    },
-                    legend: {
-                        position: "right",
-                            labels: {
-                            fontColor: "gray"
-                        },
-                        display: true,
-                    },
+                },
+                }
+            })
 
-                    elements: {
-                        hitRadius: 3,
-                    }
-            }
-        })
-
-    let users_chart_2 = new Chart(users, {
-            type: 'bar',
-            data: {
-                labels: ['users', 'count'],
-                datasets: [{
-                    label: "Users",
-                    data: users_data,
-                    backgroundColor: ['#5DA5DA ', '#FAA43A', '#60BD68',
-                '#B276B2', '#E16851', '#FB8267'],
-                    borderWidth: 1,
-                    hoverBorderColor: "black",
-                    hoverBorderWidth: 2,
-                    hoverBackgroundColor: 'rgba(154, 245, 140)',
-                    pointHoverRadius: 5
-                }],
-            },
-        options: {
-                title: {
-                    display: true,
-                        text: "Users",
-                            fontSize: 20,
-            },
-                legend: {
-                    position: "right",
-                        labels: {
-                        fontColor: "gray"
-                    },
-                    display: true,
-            },
-
-                elements: {
-                    hitRadius: 3,
-            }
-            }
-        })
-        over_time_expenditure = JSON.parse({{users | tojson}})
-        // labels = JSON.parse({{ dates_label  | tojson}})
-
-        new Chart(document.getElementById("users"), {
-                type: "line",
-                data:
-                {
-                    labels: labels,
+            let users_line_chart = new Chart(document.getElementById("users-line-chart"), {
+                type: 'line',
+                data: {
+                    labels: ['users', 'count'],
                     datasets: [{
                         label: "Users",
-                        
-                        data: users_data,
-                        fill: false,
-                        borderColor: "rgb(75, 192, 192)",
-                        lineTension: 0.1
-                    }]
+                        data: users_active_data,
+                        backgroundColor: ['#5DA5DA ', '#FAA43A', '#60BD68',
+                    '#B276B2', '#E16851', '#FB8267'],
+                        borderWidth: 1,
+                        hoverBorderColor: "black",
+                        hoverBorderWidth: 2,
+                        hoverBackgroundColor: 'rgba(154, 245, 140)',
+                        pointHoverRadius: 5
+                    }],
                 },
-                options: {}
-            });
-</script>
+            options: {
+                    title: {
+                        display: true,
+                            text: "Users",
+                                fontSize: 20,
+                },
+                }
+            })
+    </script>
 
-{% endblock %}
+    {% endblock %}
 {% endblock %}

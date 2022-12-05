@@ -20,7 +20,7 @@ class BotFeedback(db.Model):
 class Analytics:
     def add_question(self, viber_id, question):
         entry = BotQuestions(
-            user_id=viber_id, question=question, date_time=datetime.now()
+            user_id=viber_id, question=question, date_time=datetime.utcnow()
         )
         db.session.add(entry)
         db.session.commit()
@@ -28,7 +28,7 @@ class Analytics:
 
     def add_feedback(self, viber_id, feedback):
         entry = BotFeedback(
-            user_id=viber_id, feedback=feedback, date_time=datetime.now()
+            user_id=viber_id, feedback=feedback, date_time=datetime.utcnow()
         )
         db.session.add(entry)
         db.session.commit()

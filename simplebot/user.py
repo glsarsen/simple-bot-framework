@@ -18,8 +18,8 @@ class User(db.Model):
     step_index = db.Column(db.Integer)
     dialog_status = db.Column(db.String(10), default="message")
     keyboard = db.Column(db.Text())
-    joined_date = db.Column(db.DateTime, default=datetime.now())
-    last_action_date = db.Column(db.DateTime, default=datetime.now())
+    joined_date = db.Column(db.DateTime, default=datetime.utcnow)
+    last_action_date = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self) -> str:
         return f"id:{self.id}, step_index:{self.step_index}, dialog_status:{self.dialog_status}"
