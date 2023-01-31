@@ -151,13 +151,15 @@ class ViberHandler(Handler):
                     ),
                 )
             if element.type == ElementType.BUTTON:
+                messages = [RichMediaMessage(
+                                rich_media=bm.buttons(data_set),
+                                keyboard=json.loads(user.keyboard),
+                                min_api_version=7,) 
+                            for data_set in bm.chunks(element.data, 5)]
+                
                 viber.send_messages(
                     user_viber_id,
-                    RichMediaMessage(
-                        rich_media=bm.buttons(element.data),
-                        keyboard=json.loads(user.keyboard),
-                        min_api_version=7,
-                    ),
+                    messages,
                 )
             if element.type == ElementType.TIMER:
                 # time.sleep(element.data)

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>
+        Viber chat-bot control panel.
+        {% if current_user.username %}
+        User: {{ current_user.username }}<br>
+        {% endif %}
+    </h1>
+{% endblock %}

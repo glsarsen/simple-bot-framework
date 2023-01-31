@@ -2,67 +2,87 @@
 
 {% block content %}
     <p>{{ users }}</p>
-    <div>
-        <canvas id="users-bar-chart" width="800"></canvas>
+    
+    <div class="container">
+        <div class="row">
+            <div class="one-half column"><canvas id="users-bar-chart"></canvas></div>
+            <div class="one-half column"><canvas id="users-line-chart"></canvas></div>
+        </div>
+        <div class="row">
+            <div class="one-half column"><canvas id="questions-bar-chart"></canvas></div>
+            <div class="one-half column"><canvas id="feedback-bar-chart"></canvas></div>
+        </div>
     </div>
-    <div>
-        <canvas id="users-line-chart"></canvas>
-    </div>
-
     {% block javascript %}
     <script>
         let users_joined_data = JSON.parse({{ users_joined | tojson }})
         let users_active_data = JSON.parse({{ users_active | tojson }})
+        let questions_data = JSON.parse({{ questions | tojson }})
+        let feedback_data = JSON.parse({{ feedback | tojson }})
 
-        let users_bar_chart = new Chart(document.getElementById("users-bar-chart"), {
-                type: 'bar',
-                data: {
-                    labels: users_joined_data.map(row => row.date),
-                    datasets: [{
-                        label: "Users",
-                        data: users_joined_data.map(row => row.count),
-                        backgroundColor: ['#5DA5DA ', '#FAA43A', '#60BD68',
-                    '#B276B2', '#E16851', '#FB8267'],
-                        borderWidth: 1,
-                        hoverBorderColor: "black",
-                        hoverBorderWidth: 2,
-                        hoverBackgroundColor: 'rgba(154, 245, 140)',
-                        pointHoverRadius: 5
-                    }],
-                },
-            options: {
-                    title: {
-                        display: true,
-                            text: "Users",
-                                fontSize: 20,
-                },
-                }
-            })
+        let users_joined_bar_chart = new Chart(document.getElementById("users-bar-chart"), {
+            type: 'bar',
+            data: {
+                labels: users_joined_data.map(row => row.date),
+                datasets: [{
+                    label: "Users subscribed to bot",
+                    data: users_joined_data.map(row => row.count),
+                    borderWidth: 1,
+                    hoverBorderColor: "black",
+                    hoverBorderWidth: 2,
+                    hoverBackgroundColor: 'rgba(154, 245, 140)',
+                    pointHoverRadius: 5
+                }],
+            }
+        })
 
-            let users_line_chart = new Chart(document.getElementById("users-line-chart"), {
-                type: 'line',
-                data: {
-                    labels: ['users', 'count'],
-                    datasets: [{
-                        label: "Users",
-                        data: users_active_data,
-                        backgroundColor: ['#5DA5DA ', '#FAA43A', '#60BD68',
-                    '#B276B2', '#E16851', '#FB8267'],
-                        borderWidth: 1,
-                        hoverBorderColor: "black",
-                        hoverBorderWidth: 2,
-                        hoverBackgroundColor: 'rgba(154, 245, 140)',
-                        pointHoverRadius: 5
-                    }],
-                },
-            options: {
-                    title: {
-                        display: true,
-                            text: "Users",
-                                fontSize: 20,
-                },
-                }
-            })
+        let users_active_line_chart = new Chart(document.getElementById("users-line-chart"), {
+            type: 'line',
+            data: {
+                labels: users_active_data.map(row => row.date),
+                datasets: [{
+                    label: "Users active",
+                    data: users_active_data.map(row => row.count),
+                    borderWidth: 1,
+                    hoverBorderColor: "black",
+                    hoverBorderWidth: 2,
+                    hoverBackgroundColor: 'rgba(154, 245, 140)',
+                    pointHoverRadius: 5
+                }],
+            }
+        })
+
+        let questions_bar_chart = new Chart(document.getElementById("questions-bar-chart"), {
+            type: 'bar',
+            data: {
+                labels: questions_data.map(row => row.date),
+                datasets: [{
+                    label: "Questions asked to bot",
+                    data: questions_data.map(row => row.count),
+                    borderWidth: 1,
+                    hoverBorderColor: "black",
+                    hoverBorderWidth: 2,
+                    hoverBackgroundColor: 'rgba(154, 245, 140)',
+                    pointHoverRadius: 5
+                }],
+            }
+        })
+
+        let feedback_bar_chart = new Chart(document.getElementById("feedback-bar-chart"), {
+            type: 'bar',
+            data: {
+                labels: feedback_data.map(row => row.date),
+                datasets: [{
+                    label: "Feedback sent to bot",
+                    data: feedback_data.map(row => row.count),
+                    borderWidth: 1,
+                    hoverBorderColor: "black",
+                    hoverBorderWidth: 2,
+                    hoverBackgroundColor: 'rgba(154, 245, 140)',
+                    pointHoverRadius: 5
+                }],
+            }
+        })
     </script>
 
     {% endblock %}

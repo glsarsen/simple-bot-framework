@@ -1,3 +1,5 @@
+from itertools import islice
+
 BG_COLOR = "#FFFFFF"
 BUTTON_BG_COLOR = "#69C48A"
 
@@ -96,6 +98,8 @@ NEW_USER_MENU = {
 EMPLOYED_USER_MENU = {
     "Type": "keyboard",
     "BgColor": BG_COLOR,
+    # "CustomDefaultHeight": 40, # percent of screen to keyboard 40..70
+    # "ButtonsGroupColumns": 2,
     "Buttons": [
         {
             "Columns": 2,
@@ -108,6 +112,7 @@ EMPLOYED_USER_MENU = {
             "TextHAlign": "center",
             "TextOpacity": 99,
             "Text": "Гугл",
+            "TextPaddings": [0, 0, 0, 0],
         },
         {
             "Columns": 2,
@@ -120,6 +125,7 @@ EMPLOYED_USER_MENU = {
             "TextHAlign": "center",
             "TextOpacity": 99,
             "Text": "Линкедин",
+            "TextPaddings": [0, 0, 0, 0],
         },
         {
             "Columns": 2,
@@ -132,6 +138,7 @@ EMPLOYED_USER_MENU = {
             "TextHAlign": "center",
             "TextOpacity": 100,
             "Text": "СРМ",
+            "TextPaddings": [0, 0, 0, 0],
         },
         {
             "Columns": 2,
@@ -144,6 +151,7 @@ EMPLOYED_USER_MENU = {
             "TextHAlign": "center",
             "TextOpacity": 100,
             "Text": "Календарь",
+            "TextPaddings": [0, 0, 0, 0],
         },
         {
             "Columns": 2,
@@ -156,6 +164,7 @@ EMPLOYED_USER_MENU = {
             "TextHAlign": "center",
             "TextOpacity": 100,
             "Text": "Апдейт",
+            "TextPaddings": [0, 0, 0, 0],
         },
         {
             "Columns": 2,
@@ -168,6 +177,7 @@ EMPLOYED_USER_MENU = {
             "TextHAlign": "center",
             "TextOpacity": 100,
             "Text": "Тайм-трекер",
+            "TextPaddings": [0, 0, 0, 0],
         },
         {
             "Columns": 2,
@@ -180,6 +190,7 @@ EMPLOYED_USER_MENU = {
             "TextHAlign": "center",
             "TextOpacity": 100,
             "Text": "Контакты",
+            "TextPaddings": [0, 0, 0, 0],
         },
         {
             "Columns": 2,
@@ -192,6 +203,7 @@ EMPLOYED_USER_MENU = {
             "TextHAlign": "center",
             "TextOpacity": 100,
             "Text": "Бонусы и ЗП",
+            "TextPaddings": [0, 0, 0, 0],
         },
         {
             "Columns": 2,
@@ -204,6 +216,7 @@ EMPLOYED_USER_MENU = {
             "TextHAlign": "center",
             "TextOpacity": 100,
             "Text": "Лиды",
+            "TextPaddings": [0, 0, 0, 0],
         },
         {
             "Columns": 2,
@@ -216,6 +229,7 @@ EMPLOYED_USER_MENU = {
             "TextHAlign": "center",
             "TextOpacity": 100,
             "Text": "Шаблоны",
+            "TextPaddings": [0, 0, 0, 0],
         },
         {
             "Columns": 2,
@@ -228,6 +242,7 @@ EMPLOYED_USER_MENU = {
             "TextHAlign": "center",
             "TextOpacity": 100,
             "Text": "Коннект",
+            "TextPaddings": [0, 0, 0, 0],
         },
         {
             "Columns": 2,
@@ -240,6 +255,7 @@ EMPLOYED_USER_MENU = {
             "TextHAlign": "center",
             "TextOpacity": 100,
             "Text": "Фоллоуап",
+            "TextPaddings": [0, 0, 0, 0],
         },
         {
             "Columns": 2,
@@ -252,6 +268,7 @@ EMPLOYED_USER_MENU = {
             "TextHAlign": "center",
             "TextOpacity": 100,
             "Text": "Страна",
+            "TextPaddings": [0, 0, 0, 0],
         },
         {
             "Columns": 2,
@@ -264,6 +281,7 @@ EMPLOYED_USER_MENU = {
             "TextHAlign": "center",
             "TextOpacity": 100,
             "Text": "Статус",
+            "TextPaddings": [0, 0, 0, 0],
         },
         {
             "Columns": 2,
@@ -276,6 +294,7 @@ EMPLOYED_USER_MENU = {
             "TextHAlign": "center",
             "TextOpacity": 100,
             "Text": "Вернуться на старт",
+            "TextPaddings": [0, 0, 0, 0],
         },
         {
             "Columns": 2,
@@ -288,6 +307,7 @@ EMPLOYED_USER_MENU = {
             "TextHAlign": "center",
             "TextOpacity": 100,
             "Text": "Обратная связь",
+            "TextPaddings": [0, 0, 0, 0],
         },
     ],
 }
@@ -306,7 +326,7 @@ FEEDBACK_MENU = {
             "ActionBody": "_restart",
             "TextVAlign": "middle",
             "TextHAlign": "center",
-            "TextOpacity": 99,
+            "TextOpacity": 100,
             "Text": "Вернуться назад",
         }
     ],
@@ -329,6 +349,7 @@ def buttons(buttons_dict: dict):
         "Type": "rich_media",
         "BgColor": BG_COLOR,
         "ButtonsGroupRows": buttons_count,
+        # "ButtonsGroupRows": 1, # it has no effect compared to previous line somehow
         "Buttons": [],
     }
     for key, value in buttons_dict.items():
@@ -342,8 +363,9 @@ def buttons(buttons_dict: dict):
                 "ActionBody": value,
                 "TextVAlign": "middle",
                 "TextHAlign": "center",
-                "TextOpacity": 99,
+                "TextOpacity": 100,
                 "Text": key,
+                "TextPaddings": [0,0,0,0],
             }
         )
     return RICH_MEDIA
@@ -376,8 +398,13 @@ def urls(urls_dict: dict):
                 "ActionBody": value,
                 "TextVAlign": "middle",
                 "TextHAlign": "center",
-                "TextOpacity": 99,
+                "TextOpacity": 100,
                 "Text": key,
             }
         )
     return RICH_MEDIA
+
+def chunks(data, size):
+    it = iter(data)
+    for _ in range(0, len(data), size):
+        yield {k:data[k] for k in islice(it, size)}

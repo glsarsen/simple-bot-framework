@@ -7,7 +7,7 @@ from simplebot.user import User
 
 class google_sheets_writer:
     def __init__(self):
-        gc = gspread.service_account(filename="proud-coral-353408-b331891df704.json")
+        gc = gspread.service_account(filename="proud-coral-353408-7f43e6396c24.json")
         self.spreadsheet = gc.open_by_key(
             "1JEv29lEp3nXdE6l5gONynn5EvuUTD14kRXPUyynnJdA"
         )

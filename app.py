@@ -4,15 +4,17 @@ import time
 
 from flask import Flask, request, Response
 from flask_migrate import Migrate
+from flask_login import LoginManager
 
 import simplebot.bot_messages as bm
 from simplebot.viber_config import viber
-from simplebot.config import SERVER, SSL_CONTEXT, HOST, PORT, DEVELOPMENT
+from simplebot.config import SERVER, SSL_CONTEXT, HOST, PORT, DEVELOPMENT, SECRET_KEY
 from simplebot.database import db
 from simplebot.handler import ViberHandler
 from simplebot.question_worker import QuestionWorker
 from simplebot.message_tree import ElementTree
-from simplebot.blueprints import stats_page
+from simplebot.blueprints import stats_page, index_page, register_page, login_page, logout_page
+from simplebot.admin import Admin # DB model imported to be visible for flask-migration
 
 
 question_worker = QuestionWorker(
@@ -1529,14 +1531,24 @@ app = Flask(__name__)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///bot.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config['SECRET_KEY'] = SECRET_KEY
 
 db.init_app(app)
 # db.create_all()
 
 migrate = Migrate(app, db)
+login = LoginManager(app)
+login.login_view = "login_page.login"
 
+@login.user_loader
+def load_admin(id):
+    return Admin.query.get(int(id))
 
-app.register_blueprint(stats_page, url_prefix="/statistics")
+app.register_blueprint(stats_page, url_prefix="/stats")
+app.register_blueprint(index_page, url_prefix="/index")
+app.register_blueprint(register_page, url_prefix="/register")
+app.register_blueprint(login_page, url_prefix="/login")
+app.register_blueprint(logout_page, url_prefix="/logout")
 
 # All bot request processing is done here
 

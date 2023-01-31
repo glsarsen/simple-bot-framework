@@ -22,3 +22,4 @@ Creating db:
 >>> python -m flask shell
 >>> from app import db
 >>> db.create_all()
+

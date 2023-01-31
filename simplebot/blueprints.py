@@ -1,16 +1,23 @@
 import json
 import datetime
 
-from flask import Blueprint, render_template, abort
+from flask import Blueprint, render_template, abort, redirect, url_for, flash, request, current_app
+from flask_login import current_user, login_user, logout_user, login_required
+from werkzeug.urls import url_parse
 from jinja2 import TemplateNotFound
 from sqlalchemy import func
 
 from simplebot.database import db
 from simplebot.analytics import BotFeedback, BotQuestions
 from simplebot.user import User
+from simplebot.admin import Admin
+from simplebot.forms import LoginForm, RegistrationForm
 
+index_page = Blueprint("index_page", __name__, template_folder="templates")
 stats_page = Blueprint("stats_page", __name__, template_folder="templates")
-
+register_page = Blueprint("register_page", __name__, template_folder="templates")
+login_page = Blueprint("login_page", __name__, template_folder="templates")
+logout_page = Blueprint("logout_page", __name__, template_folder="templates")
 
 def date_handler(obj): return (
     obj.isoformat()
@@ -19,39 +26,24 @@ def date_handler(obj): return (
 )
 
 
+# @login_required
 @stats_page.route("/")
-def show():
-
-    # users = db.session.execute(
-    #     db.select(User.joined_date, User.last_action_date))
-    # users_joined = User.query(func.count())group_by(User.joined_date)
-    # users_active = User.query.count().group_by(User.last_action_date)
-    # questions = BotQuestions.query.count().group_by(BotQuestions.date_time)
-    # feedback = BotFeedback.query.count().group_by(BotFeedback.date_time)
-
-    # users_joined = db.session.query(
-    #     User.joined_date, func.count(1)).group_by(User.joined_date)
-    # users_active = db.session.query(
-    #     User.last_action_date, func.count(1)).group_by(User.joined_date)
-    # questions = db.session.query(
-    #     BotQuestions.date_time, func.count(1)).group_by(BotQuestions.date_time)
-    # feedback = db.session.query(
-    #     BotFeedback.date_time, func.count(1)).group_by(BotFeedback.date_time)
-
+def stats():
+    if not current_user.is_authenticated:
+        return current_app.login_manager.unauthorized()
     users_joined = db.session.execute(
-        db.select(User.joined_date, func.count(1)).group_by(User.joined_date))
+        db.select(func.strftime("%Y-%m-%d", User.joined_date), func.count(1))
+            .group_by(func.strftime("%Y-%m-%d", User.joined_date)))
     users_active = db.session.execute(
-        db.select(User.last_action_date, func.count(1)).group_by(User.joined_date))
+        db.select(func.strftime("%Y-%m-%d", User.last_action_date), func.count(1))
+            .group_by(func.strftime("%Y-%m-%d", User.last_action_date)))
     questions = db.session.execute(
-        db.select(BotQuestions.date_time, func.count(1)).group_by(BotQuestions.date_time))
+        db.select(func.strftime("%Y-%m-%d", BotQuestions.date_time), func.count(1))
+            .group_by(func.strftime("%Y-%m-%d", BotQuestions.date_time)))
     feedback = db.session.execute(
-        db.select(BotFeedback.date_time, func.count(1)).group_by(BotFeedback.date_time))
+        db.select(func.strftime("%Y-%m-%d", BotFeedback.date_time), func.count(1))
+            .group_by(func.strftime("%Y-%m-%d", BotFeedback.date_time)))
 
-    # for elem in [users_joined, users_active, questions, feedback]:
-    #     print(type(elem), elem, sep="\n", end="\n\n")
-    #     for elem2 in elem:
-    #         print(type(elem2), elem2)
-    
     users_joined = [{"date": elem[0], "count": elem[1]} for elem in users_joined]
     users_active = [{"date": elem[0], "count": elem[1]} for elem in users_active]
     questions = [{"date": elem[0], "count": elem[1]} for elem in questions]
@@ -67,3 +59,45 @@ def show():
                                questions=questions, feedback=feedback)
     except TemplateNotFound:
         abort(404)
+
+
+@index_page.route("/", methods=["GET"])
+def index():
+    return render_template("index.html", title="Home Page")
+
+@register_page.route("/", methods=["GET", "POST"])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for("index_page.index"))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = Admin(username=form.username.data, email=form.username.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash("You are now registered.")
+        return redirect(url_for("login_page.login"))
+    return render_template("register.html", title="Register", form=form)
+    
+@login_page.route("/", methods=["GET", "POST"])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for("index_page.index"))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = Admin.query.filter_by(username=form.username.data).first()
+        if user is None or not user.check_password(form.password.data):
+            flash("Invalid username or password")
+            return redirect(url_for("login_page.login"))
+        login_user(user, remember=form.remember_me.data)
+        next_page = request.args.get("next")
+        if not next_page or url_parse(next_page).netloc != "":
+            next_page = url_for("index_page.index")
+        return redirect(next_page)
+    return render_template("login.html", title="Sign In", form=form)
+            
+
+@logout_page.route("/", methods=["GET"])
+def logout():
+    logout_user()
+    return redirect(url_for("index_page.index"))
