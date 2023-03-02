@@ -2,6 +2,7 @@ pip install viberbot
 pip install gspread
 pip install nltk
 pip install flask
+pip install flask-migrate
 pip install flask-sqlalchemy
 pip install python-dotenv
 pip install torch
@@ -15,7 +16,7 @@ download nltk punkt tokenizer:
 Running bot on server:
 >>> cd /home/testsix/new-user-bot
 >>> source venv/bin/activate
->>> nohup python3 app.py &
+>>> nohup python3.9 app.py &
 
 
 Creating db:

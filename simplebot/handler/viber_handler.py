@@ -6,11 +6,10 @@ from flask import url_for, Response
 from viberbot.api.viber_requests import ViberConversationStartedRequest
 from viberbot.api.viber_requests import ViberFailedRequest
 from viberbot.api.viber_requests import ViberMessageRequest
-from viberbot.api.viber_requests import ViberMessageRequest
 from viberbot.api.messages import TextMessage
 from viberbot.api.messages import RichMediaMessage
 from viberbot.api.messages import PictureMessage
-from viberbot.api.messages import RichMediaMessage
+from viberbot.api.messages import KeyboardMessage
 
 from simplebot.google_sheets_writer import google_sheets_writer
 from simplebot.handler.request_handler import Handler
@@ -117,11 +116,14 @@ class ViberHandler(Handler):
                 self.user_database.update_user()
                 return
             if element.type == ElementType.TEXT:
+                keyboard=json.loads(user.keyboard)
+                if keyboard is None:
+                    keyboard = bm.NEW_USER_MENU
                 viber.send_messages(
                     user_viber_id,
                     TextMessage(
                         text=element.data,
-                        keyboard=json.loads(user.keyboard),
+                        keyboard=keyboard,
                         min_api_version=7,
                     ),
                 )
@@ -166,8 +168,14 @@ class ViberHandler(Handler):
                 # TODO: make it async. Problems because it makes handler work weird with flask threads?
                 pass
             if element.type == ElementType.KEYBOARD:
+                # # removed buttons in chat - only buttons in keyboard
+                # user.keyboard = json.dumps(element.data)
+                # self.user_database.update_user()
                 user.keyboard = json.dumps(element.data)
                 self.user_database.update_user()
+                message = KeyboardMessage(keyboard=element.data, min_api_version=7)
+                viber.send_messages(user_viber_id, message)
+                
             if element.type == "action" and element.data == "gs_write_user":
                 gsw = google_sheets_writer()
                 gsw.save_user_to_gsheets(user)
