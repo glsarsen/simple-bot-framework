@@ -7,7 +7,7 @@ from werkzeug.urls import url_parse
 from jinja2 import TemplateNotFound
 from sqlalchemy import func
 
-from simplebot.database import db
+from simplebot import db
 from simplebot.analytics import BotFeedback, BotQuestions
 from simplebot.user import User
 from simplebot.admin import Admin

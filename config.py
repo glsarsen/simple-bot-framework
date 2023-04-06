@@ -12,7 +12,8 @@ SSL_KEY_PATH = environ.get("SSL_KEY_PATH")
 DEVELOPMENT = True
 
 if DEVELOPMENT:
-    SERVER = "https://a4c8-92-253-236-22.eu.ngrok.io"
+    SERVER = "https://testsix.rh-s.com"
+    # SERVER = "https://5b25-92-253-236-54.eu.ngrok.io"
     SSL_CONTEXT = None
     TOKEN = environ.get("VIBER_TOKEN_TEST")
     PORT = 30000

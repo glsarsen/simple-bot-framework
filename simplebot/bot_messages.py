@@ -1,10 +1,9 @@
 from itertools import islice
 
 # from flask import url_for
-# from app import app
-
+# from wsgi import app
 # TODO: VERY HACKY - redo with app.app_context !!!
-from simplebot.config import SERVER 
+from config import SERVER 
 
 BG_COLOR = "#FFFFFF"
 BUTTON_BG_COLOR = "#69C48A"
@@ -232,8 +231,8 @@ EMPLOYED_USER_MENU["Buttons"][13]["Image"] = SERVER + "/static/pictures/menu_2/F
 EMPLOYED_USER_MENU["Buttons"][14]["Image"] = SERVER + "/static/pictures/menu_2/Frame%2038.png"
 EMPLOYED_USER_MENU["Buttons"][15]["Image"] = SERVER + "/static/pictures/menu_2/Frame%2026.png"
 
-# with app.app_context:
-    # EMPLOYED_USER_MENU["Buttons"][0]["BgMedia"] = url_for("static", filename="pictures/menu_2/Frame%2030.png", _external=True)
+# with app.app_context():
+#     EMPLOYED_USER_MENU["Buttons"][0]["BgMedia"] = url_for("static", filename="pictures/menu_2/Frame%2030.png", _external=True)
 #     EMPLOYED_USER_MENU["Buttons"][1]["BgMedia"] = url_for("static", filename="pictures/menu_2/Frame%2031.png", _external=True)
 #     EMPLOYED_USER_MENU["Buttons"][2]["BgMedia"] = url_for("static", filename="pictures/menu_2/Frame%2032.png", _external=True)
 #     EMPLOYED_USER_MENU["Buttons"][3]["BgMedia"] = url_for("static", filename="pictures/menu_2/Frame%2030-1.png", _external=True)

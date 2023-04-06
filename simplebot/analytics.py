@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from simplebot.database import db
+from simplebot import db
 
 
 class BotQuestions(db.Model):
