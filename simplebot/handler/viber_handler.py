@@ -6,6 +6,7 @@ from flask import url_for, Response
 from viberbot.api.viber_requests import ViberConversationStartedRequest
 from viberbot.api.viber_requests import ViberFailedRequest
 from viberbot.api.viber_requests import ViberMessageRequest
+from viberbot.api.viber_requests import ViberUnsubscribedRequest
 from viberbot.api.messages import TextMessage
 from viberbot.api.messages import RichMediaMessage
 from viberbot.api.messages import PictureMessage
@@ -116,9 +117,12 @@ class ViberHandler(Handler):
                 self.user_database.update_user()
                 return
             if element.type == ElementType.TEXT:
-                keyboard=json.loads(user.keyboard)
-                if keyboard is None:
-                    keyboard = bm.NEW_USER_MENU
+                if user.keyboard:
+                    keyboard=json.loads(user.keyboard)
+                else:
+                    keyboard=None
+                # if keyboard is None:
+                #     keyboard = bm.EMPTY_MENU
                 viber.send_messages(
                     user_viber_id,
                     TextMessage(
@@ -215,3 +219,7 @@ class ViberHandler(Handler):
             self.logger.warn(
                 f"Client failed receiving message. failure: {viber_request}"
             )
+        
+        if isinstance(viber_request, ViberUnsubscribedRequest):
+            # TODO: delete user from db
+            self.user_database.delete_user(viber_request.user_id)

@@ -40,3 +40,7 @@ class UserDatabase:
 
     def update_user(self):
         db.session.commit()
+    
+    def delete_user(self, viber_id):
+        db.session.query(User).filter_by(viber_id=viber_id).delete()
+        db.session.commit()

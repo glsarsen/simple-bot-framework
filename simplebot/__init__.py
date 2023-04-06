@@ -5,6 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 from config import DEVELOPMENT, SECRET_KEY
 
+import nltk
+nltk.download('punkt')
 
 db = SQLAlchemy()
 migrate = Migrate()

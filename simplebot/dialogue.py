@@ -11,7 +11,7 @@ rhandler = ViberHandler(question_worker=question_worker,
                         element_tree=element_tree)
 
 element_tree.add_element("branch", "_start")
-element_tree.add_element("keyboard", bm.EMPTY_MENU)
+# element_tree.add_element("keyboard", bm.EMPTY_MENU)
 element_tree.add_element("text", "Добро пожаловать в компанию!")
 element_tree.add_element("timer", 2)
 element_tree.add_element("text", "Как тебя зовут?")
