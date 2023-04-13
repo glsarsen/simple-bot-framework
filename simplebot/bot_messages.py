@@ -6,6 +6,7 @@ from itertools import islice
 from config import SERVER 
 
 BG_COLOR = "#2C4075"
+TEXT_COLOR = "#FFFFFF"
 BUTTON_BG_COLOR = "#2C4075"
 
 def buttons(buttons_dict: dict):
@@ -106,7 +107,7 @@ def keyboard(buttons_list: list, image=False):
                 "TextVAlign": "middle",
                 "TextHAlign": "center",
                 "TextOpacity": 100,
-                "Text": key,
+                "Text": f"<font color=”{TEXT_COLOR}”>{key}</font>",
                 # "TextPaddings": [0,0,0,0],
             }
         )
