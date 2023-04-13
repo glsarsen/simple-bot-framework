@@ -107,7 +107,7 @@ def keyboard(buttons_list: list, image=False):
                 "TextVAlign": "middle",
                 "TextHAlign": "center",
                 "TextOpacity": 100,
-                "Text": f"<font color='{TEXT_COLOR}'>{key}</font>",
+                "Text": key,
                 # "TextPaddings": [0,0,0,0],
             }
         )
