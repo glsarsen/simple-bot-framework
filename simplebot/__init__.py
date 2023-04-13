@@ -5,8 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 from config import DEVELOPMENT, SECRET_KEY
 
-import nltk
-nltk.download('punkt')
+
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -14,6 +13,9 @@ login = LoginManager()
 
 
 def init_app():
+    import nltk
+    nltk.download('punkt')
+    
     app = Flask(__name__, static_folder="../static", template_folder="../templates")
 
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///bot.db"
