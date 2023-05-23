@@ -18,11 +18,3 @@ def incoming():
 
     return Response(status=200)
 
-
-if DEVELOPMENT and __name__ == "__main__":
-    scheduler = sched.scheduler(time.time, time.sleep)
-    scheduler.enter(5, 1, viber.set_webhook, (SERVER,))
-    t = threading.Thread(target=scheduler.run)
-    t.start()
-
-    app.run(host=HOST, port=PORT, debug=DEVELOPMENT, ssl_context=SSL_CONTEXT)

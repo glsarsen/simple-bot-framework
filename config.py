@@ -9,19 +9,18 @@ SECRET_KEY = urandom(32)
 SSL_CERT_PATH = environ.get("SSL_CERT_PATH")
 SSL_KEY_PATH = environ.get("SSL_KEY_PATH")
 
-DEVELOPMENT = True
+DEVELOPMENT = False
 
 if DEVELOPMENT:
-    SERVER = "https://testsix.rh-s.com"
-    # SERVER = "https://4f41-92-253-212-223.eu.ngrok.io"
+    SERVER = "https://1b94-92-253-212-37.ngrok-free.app"
     SSL_CONTEXT = None
-    TOKEN = environ.get("VIBER_TOKEN_TEST")
+    TOKEN = environ.get("VIBER_TOKEN_3")
     PORT = 30000
 
 else:
-    SERVER = "https://testsix.rh-s.com"
+    SERVER = "https://chatbot.rhelpers.com"
     SSL_CONTEXT = None
-    TOKEN = environ.get("VIBER_TOKEN_2")
+    TOKEN = environ.get("VIBER_TOKEN_3")
     PORT = 30000
 
 
