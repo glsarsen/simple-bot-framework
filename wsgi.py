@@ -1,7 +1,3 @@
-import threading
-import sched
-import time
-
 from flask import request, Response
 
 from simplebot.viber_config import viber
