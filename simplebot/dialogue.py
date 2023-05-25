@@ -444,7 +444,7 @@ element_tree.add_element(
     "text",
     "*Manager: Your name* (это в Ваших интересах, чтобы мы знали кому дать бонус )\n*Поле Guests* – сюда внеси имейлы всех тех, кого мы хотим видеть на звонке:\n- нашу почту sales@rh-s.com,\n- почту клиента (с его стороны также может быть несколько почт, если он попросил подключить на звонок к примеру его партнера).\nИм придет оповещение о данном звонке на почту, и перед самым звонком появится оповещение из календаря.\nНажимаем *SAVE*, и когда появится *Invite external guests, нажимаем YES*.",
 )
-element_tree.add_element("button", "_questions_add_event_to_calendar_5")
+element_tree.add_element("button", {"Далее": "_questions_add_event_to_calendar_5"})
 element_tree.add_element("branch", "_questions_add_event_to_calendar_5")
 element_tree.add_element(
     "text",
