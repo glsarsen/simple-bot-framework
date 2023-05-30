@@ -395,7 +395,7 @@ QUESTIONS_COUNTRY = keyboard([
     ])
 
 QUESTIONS_STATUS = keyboard([
-    ("Статус при назначении ивента", "_questions_status_on_event"),
+    ("Статус при\n назначении\n ивента", "_questions_status_on_event"),
     ("Статус апдейт", "_questions_status_update"),
     ("Виды статусов в СРМ", "_questions_status_categories_in_CRM"),
     ("Обратная связь", "_feedback"),
