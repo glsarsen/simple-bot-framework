@@ -38,7 +38,7 @@ def buttons(buttons_dict: dict):
                 "TextVAlign": "middle",
                 "TextHAlign": "center",
                 "TextOpacity": 100,
-                "Text": key,
+                "Text": f"<font color=\"{TEXT_COLOR}\">{key}</font>",
                 "TextPaddings": [0,0,0,0],
             }
         )
@@ -73,7 +73,7 @@ def urls(urls_dict: dict):
                 "TextVAlign": "middle",
                 "TextHAlign": "center",
                 "TextOpacity": 100,
-                "Text": key,
+                "Text": f"<font color=\"{TEXT_COLOR}\">{key}</font>",
             }
         )
     return RICH_MEDIA
